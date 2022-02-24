@@ -2,7 +2,20 @@ const expect = require('expect.js');
 const extract = require('../src/extract');
 
 describe('extract', () => {
-  it('sums 1 + 1', () => {
-    expect(1 + 1).to.be(2);
+  it('keeps the same content if no component is present', () => {
+    const input = `
+      export class AppComponent {
+        constructor() {}
+      }
+    `;
+
+    const expected = {
+      output: input,
+      component: null,
+    };
+
+    const result = extract(input);
+
+    expect(result).to.eql(expected);
   });
 });
