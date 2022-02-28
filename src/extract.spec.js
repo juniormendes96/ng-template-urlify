@@ -5,28 +5,37 @@ const expectEqual = (input, expected) => expect(extract(input)).to.eql(expected)
 
 describe('extract', () => {
   it('keeps the same content if no decorator is present', () => {
-    const input = `
+    const inputs = [
+      `
       export class AppComponent {
         constructor() {}
       }
-    `;
+      `,
+      '',
+    ];
 
-    const expected = { output: input, component: null };
-
-    expectEqual(input, expected);
+    inputs.forEach((input) => expectEqual(input, { output: input, component: null }));
   });
 
   it('keeps the same content if no template is found on decorator', () => {
-    const input = `
+    const inputs = [
+      `
       @Component({
         selector: "app-root",
         styles: ["h1 { font-weight: normal; }"],
       })
       export class AppComponent {}
-    `;
+      `,
+      `
+      @Component({
+        selector: "app-root",
+        templateUrl: "./app-component.html",
+        styles: ["h1 { font-weight: normal; }"],
+      })
+      export class AppComponent {}
+      `,
+    ];
 
-    const expected = { output: input, component: null };
-
-    expectEqual(input, expected);
+    inputs.forEach((input) => expectEqual(input, { output: input, component: null }));
   });
 });
