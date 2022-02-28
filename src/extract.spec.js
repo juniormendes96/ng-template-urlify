@@ -15,4 +15,18 @@ describe('extract', () => {
 
     expectEqual(input, expected);
   });
+
+  it('keeps the same content if no template is found on decorator', () => {
+    const input = `
+      @Component({
+        selector: "app-root",
+        styles: ["h1 { font-weight: normal; }"],
+      })
+      export class AppComponent {}
+    `;
+
+    const expected = { output: input, component: null };
+
+    expectEqual(input, expected);
+  });
 });
