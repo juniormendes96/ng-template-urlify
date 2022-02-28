@@ -40,4 +40,32 @@ describe('extract', () => {
 
     inputs.forEach((input) => expectEqual(input, {}));
   });
+
+  it('returns correct values', () => {
+    const input = `
+
+    @Component({
+      selector: "app-root",
+      template: \`
+        <h1>Tour of Heroes</h1>
+        <app-hero-main [hero]="hero"></app-hero-main>
+      \`,
+      styles: ["h1 { font-weight: normal; }"],
+    })
+    export class AppComponent {}
+
+    `;
+
+    const expectedTemplate = `template: \`
+        <h1>Tour of Heroes</h1>
+        <app-hero-main [hero]="hero"></app-hero-main>
+      \``;
+
+    const expectedContent = `
+        <h1>Tour of Heroes</h1>
+        <app-hero-main [hero]="hero"></app-hero-main>
+      `;
+
+    expectEqual(input, { template: expectedTemplate, templateContent: expectedContent });
+  });
 });
