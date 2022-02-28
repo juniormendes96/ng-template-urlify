@@ -49,6 +49,9 @@ describe('extract', () => {
       template: \`
         <h1>Tour of Heroes</h1>
         <app-hero-main [hero]="hero"></app-hero-main>
+        <p>
+          Paragraph
+        </p>
       \`,
       styles: ["h1 { font-weight: normal; }"],
     })
@@ -59,13 +62,13 @@ describe('extract', () => {
     const expectedTemplate = `template: \`
         <h1>Tour of Heroes</h1>
         <app-hero-main [hero]="hero"></app-hero-main>
+        <p>
+          Paragraph
+        </p>
       \``;
 
-    const expectedContent = `
-        <h1>Tour of Heroes</h1>
-        <app-hero-main [hero]="hero"></app-hero-main>
-      `;
+    const expectedContent = '<h1>Tour of Heroes</h1><app-hero-main [hero]="hero"></app-hero-main><p>Paragraph</p>';
 
-    expectEqual(input, { template: expectedTemplate, templateContent: expectedContent });
+    expectEqual(input, { rawTemplate: expectedTemplate, templateContent: expectedContent });
   });
 });

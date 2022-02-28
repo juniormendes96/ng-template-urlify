@@ -11,13 +11,15 @@ function extract(input) {
     return EMPTY;
   }
 
-  const [template, templateContent] = decoratorMatch.match(/template:\s?\`(.+)\`/s) || [];
+  const [rawTemplate, templateContent] = decoratorMatch.match(/template:\s?\`(.+)\`/s) || [];
 
-  if (!template) {
+  if (!rawTemplate) {
     return EMPTY;
   }
 
-  return { template, templateContent };
+  const singleLineContent = templateContent.replace(/\n\s+/g, '');
+
+  return { rawTemplate, templateContent: singleLineContent };
 }
 
 module.exports = extract;
