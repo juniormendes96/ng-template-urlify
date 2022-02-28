@@ -1,5 +1,5 @@
 function extract(input) {
-  return { output: input, component: null };
+  return {};
 }
 
 module.exports = extract;

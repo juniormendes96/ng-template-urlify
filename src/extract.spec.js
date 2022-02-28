@@ -14,7 +14,7 @@ describe('extract', () => {
       '',
     ];
 
-    inputs.forEach((input) => expectEqual(input, { output: input, component: null }));
+    inputs.forEach((input) => expectEqual(input, {}));
   });
 
   it('keeps the same content if no template is found on decorator', () => {
@@ -36,6 +36,6 @@ describe('extract', () => {
       `,
     ];
 
-    inputs.forEach((input) => expectEqual(input, { output: input, component: null }));
+    inputs.forEach((input) => expectEqual(input, {}));
   });
 });
