@@ -4,7 +4,7 @@ const extract = require('../src/extract');
 const expectEqual = (input, expected) => expect(extract(input)).to.eql(expected);
 
 describe('extract', () => {
-  it('keeps the same content if no decorator is present', () => {
+  it('returns empty if no decorator is present', () => {
     const inputs = [
       `
       export class AppComponent {
@@ -17,7 +17,7 @@ describe('extract', () => {
     inputs.forEach((input) => expectEqual(input, {}));
   });
 
-  it('keeps the same content if no template is found on decorator', () => {
+  it('returns empty if no template is found on decorator', () => {
     const inputs = [
       `
       @Component({
