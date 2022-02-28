@@ -1,6 +1,8 @@
 const expect = require('expect.js');
 const extract = require('../src/extract');
 
+const expectEqual = (input, expected) => expect(extract(input)).to.eql(expected);
+
 describe('extract', () => {
   it('keeps the same content if no decorator is present', () => {
     const input = `
@@ -9,13 +11,8 @@ describe('extract', () => {
       }
     `;
 
-    const expected = {
-      output: input,
-      component: null,
-    };
+    const expected = { output: input, component: null };
 
-    const result = extract(input);
-
-    expect(result).to.eql(expected);
+    expectEqual(input, expected);
   });
 });
