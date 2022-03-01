@@ -33,7 +33,7 @@ describe('extractDecoratorTemplate', () => {
     inputs.forEach((input) => expect(sut(input)).to.be(null));
   });
 
-  it('returns correct template', () => {
+  it('returns correct template with multiple lines', () => {
     const input = `
 
     @Component({
@@ -70,5 +70,79 @@ describe('extractDecoratorTemplate', () => {
       '<h1>Tour of Heroes</h1><app-hero-main [hero]="hero"></app-hero-main><p>{{ paragraph }}</p><div *ngIf="condition"><div>Content</div></div><button (click)="onClick({ someValue: 0 })">Click me</button>';
 
     expectEqual(input, { raw: expectedRaw, content: expectedContent });
+  });
+
+  it('returns correct template with single line', () => {
+    const inputs = [
+      `
+
+    @Component({
+      selector: 'app-root',
+      template: '<h1>Tour of Heroes</h1>',
+      styles: ['h1 { font-weight: normal; }'],
+    })
+
+    `,
+      `
+
+    @Component({
+      selector: "app-root",
+      template: "<h1>Tour of Heroes</h1>",
+      styles: ["h1 { font-weight: normal; }"],
+    })
+
+    `,
+    ];
+
+    const expectedContent = '<h1>Tour of Heroes</h1>';
+
+    expectEqual(inputs[0], { raw: `template: '<h1>Tour of Heroes</h1>'`, content: expectedContent });
+    expectEqual(inputs[1], { raw: `template: "<h1>Tour of Heroes</h1>"`, content: expectedContent });
+  });
+
+  it('returns correct template when there are extra spaces', () => {
+    const inputs = [
+      `
+
+      @Component({
+        selector: "app-root",
+        template : \`
+          <h1>Tour of Heroes</h1>
+        \` ,
+        styles: ["h1 { font-weight: normal; }"],
+      })
+
+      `,
+      `
+
+      @Component({
+        selector: 'app-root',
+        template : '<h1>Tour of Heroes</h1>' ,
+        styles: ['h1 { font-weight: normal; }'],
+      })
+
+      `,
+      `
+
+      @Component({
+        selector: "app-root",
+        template : "<h1>Tour of Heroes</h1>" ,
+        styles: ["h1 { font-weight: normal; }"],
+      })
+
+      `,
+    ];
+
+    const expectedContent = '<h1>Tour of Heroes</h1>';
+
+    expectEqual(inputs[0], {
+      raw: `template : \`
+          <h1>Tour of Heroes</h1>
+        \``,
+      content: expectedContent,
+    });
+
+    expectEqual(inputs[1], { raw: `template : '<h1>Tour of Heroes</h1>'`, content: expectedContent });
+    expectEqual(inputs[2], { raw: `template : "<h1>Tour of Heroes</h1>"`, content: expectedContent });
   });
 });
