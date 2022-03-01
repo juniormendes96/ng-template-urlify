@@ -3,7 +3,7 @@ function extract(input) {
     return null;
   }
 
-  const [decoratorMatch] = input.match(/\@Component.*?\}\)/s) || [];
+  const [decoratorMatch] = input.match(/\@Component.*?class|export class/s) || [];
 
   if (!decoratorMatch) {
     return null;

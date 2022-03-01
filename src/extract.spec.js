@@ -55,7 +55,7 @@ describe('extract', () => {
         <div *ngIf="condition">
           <div>Content</div>
         </div>
-        <button (click)="onClick()">Click me</button>
+        <button (click)="onClick({ someValue: 0 })">Click me</button>
       \`,
       styles: ["h1 { font-weight: normal; }"],
     })
@@ -72,11 +72,11 @@ describe('extract', () => {
         <div *ngIf="condition">
           <div>Content</div>
         </div>
-        <button (click)="onClick()">Click me</button>
+        <button (click)="onClick({ someValue: 0 })">Click me</button>
       \``;
 
     const expectedContent =
-      '<h1>Tour of Heroes</h1><app-hero-main [hero]="hero"></app-hero-main><p>{{ paragraph }}</p><div *ngIf="condition"><div>Content</div></div><button (click)="onClick()">Click me</button>';
+      '<h1>Tour of Heroes</h1><app-hero-main [hero]="hero"></app-hero-main><p>{{ paragraph }}</p><div *ngIf="condition"><div>Content</div></div><button (click)="onClick({ someValue: 0 })">Click me</button>';
 
     expectEqual(input, { rawTemplate: expectedTemplate, templateContent: expectedContent });
   });
