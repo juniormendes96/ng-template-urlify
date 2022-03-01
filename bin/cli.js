@@ -6,10 +6,12 @@ const scan = require('recursive-readdir-sync');
 const commandLineArgs = require('command-line-args');
 const beautify = require('js-beautify').html;
 
-const src = path.join(path.dirname(fs.realpathSync(__filename)), '../src/extract');
 const options = commandLineArgs([{ name: 'targets', type: String, multiple: true, defaultOption: true }]);
 
-const extract = require(src);
+const src = path.join(path.dirname(fs.realpathSync(__filename)), '../src');
+
+const extractComponentDecorator = require(`${src}/extract-component-decorator`);
+const extractDecoratorTemplate = require(`${src}/extract-decorator-template`);
 
 const targets = [];
 
@@ -25,15 +27,16 @@ targets
   .filter((target) => target.endsWith('.ts'))
   .forEach((target) => {
     const input = fs.readFileSync(target, 'utf-8');
-    const result = extract(input);
+    const decorator = extractComponentDecorator(input);
+    const template = extractDecoratorTemplate(decorator);
 
-    if (!result) return;
+    if (!template) return;
 
-    const { rawTemplate, templateContent } = result;
+    const { raw, content } = template;
     const htmlFilePath = target.replace('.ts', '.html');
     const htmlFileName = htmlFilePath.split('/').find((file) => file.endsWith('.html'));
-    const replacedTarget = input.replace(rawTemplate, `templateUrl: "${htmlFileName}"`);
+    const replacedTarget = input.replace(raw, `templateUrl: "${htmlFileName}"`);
 
     fs.writeFileSync(target, replacedTarget, 'utf-8');
-    fs.writeFileSync(htmlFilePath, beautify(templateContent));
+    fs.writeFileSync(htmlFilePath, beautify(content));
   });
