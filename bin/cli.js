@@ -13,15 +13,12 @@ const src = path.join(path.dirname(fs.realpathSync(__filename)), '../src');
 const extractComponentDecorator = require(`${src}/extract-component-decorator`);
 const extractDecoratorTemplate = require(`${src}/extract-decorator-template`);
 
-const targets = [];
-
-options.targets.forEach((target) => {
+const targets = options.targets.reduce((targets, target) => {
   if (fs.statSync(target).isDirectory()) {
-    targets.push.apply(targets, scan(target));
-  } else {
-    targets.push(target);
+    return [...targets, ...scan(target)];
   }
-});
+  return [...targets, target];
+}, []);
 
 targets
   .filter((target) => target.endsWith('.ts'))
