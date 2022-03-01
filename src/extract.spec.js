@@ -41,6 +41,44 @@ describe('extract', () => {
     inputs.forEach((input) => expectEqual(input, null));
   });
 
+  it('returns correct values with both "class" and "export class"', () => {
+    const inputWithExport = `
+
+    @Component({
+      selector: "app-root",
+      template: \`
+        <h1>Tour of Heroes</h1>
+      \`,
+      styles: ["h1 { font-weight: normal; }"],
+    })
+    export class AppComponent {}
+
+    `;
+
+    const inputWithoutExport = `
+
+    @Component({
+      selector: "app-root",
+      template: \`
+        <h1>Tour of Heroes</h1>
+      \`,
+      styles: ["h1 { font-weight: normal; }"],
+    })
+    class AppComponent {}
+
+    `;
+
+    const inputs = [inputWithExport, inputWithoutExport];
+
+    const expectedTemplate = `template: \`
+        <h1>Tour of Heroes</h1>
+      \``;
+
+    const expectedContent = '<h1>Tour of Heroes</h1>';
+
+    inputs.forEach((input) => expectEqual(input, { rawTemplate: expectedTemplate, templateContent: expectedContent }));
+  });
+
   it('returns correct values with normal spacing', () => {
     const input = `
 
