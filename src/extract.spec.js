@@ -50,8 +50,12 @@ describe('extract', () => {
         <h1>Tour of Heroes</h1>
         <app-hero-main [hero]="hero"></app-hero-main>
         <p>
-          Paragraph
+          {{ paragraph }}
         </p>
+        <div *ngIf="condition">
+          <div>Content</div>
+        </div>
+        <button (click)="onClick()">Click me</button>
       \`,
       styles: ["h1 { font-weight: normal; }"],
     })
@@ -63,11 +67,16 @@ describe('extract', () => {
         <h1>Tour of Heroes</h1>
         <app-hero-main [hero]="hero"></app-hero-main>
         <p>
-          Paragraph
+          {{ paragraph }}
         </p>
+        <div *ngIf="condition">
+          <div>Content</div>
+        </div>
+        <button (click)="onClick()">Click me</button>
       \``;
 
-    const expectedContent = '<h1>Tour of Heroes</h1><app-hero-main [hero]="hero"></app-hero-main><p>Paragraph</p>';
+    const expectedContent =
+      '<h1>Tour of Heroes</h1><app-hero-main [hero]="hero"></app-hero-main><p>{{ paragraph }}</p><div *ngIf="condition"><div>Content</div></div><button (click)="onClick()">Click me</button>';
 
     expectEqual(input, { rawTemplate: expectedTemplate, templateContent: expectedContent });
   });
