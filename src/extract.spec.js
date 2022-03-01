@@ -80,4 +80,39 @@ describe('extract', () => {
 
     expectEqual(input, { rawTemplate: expectedTemplate, templateContent: expectedContent });
   });
+
+  it('extracts only the first component if, for any reason, there is more than one', () => {
+    const input = `
+
+    @Component({
+      selector: "app-root-1",
+      template: \`
+        <h1>Tour of Heroes 1</h1>
+        <app-hero-main [hero]="hero"></app-hero-main>
+      \`,
+      styles: ["h1 { font-weight: normal; }"],
+    })
+    export class AppComponent1 {}
+
+    @Component({
+      selector: "app-root-2",
+      template: \`
+        <h1>Tour of Heroes 2</h1>
+        <app-hero-main [hero]="hero"></app-hero-main>
+      \`,
+      styles: ["h1 { font-weight: normal; }"],
+    })
+    export class AppComponent2 {}
+
+    `;
+
+    const expectedTemplate = `template: \`
+        <h1>Tour of Heroes 1</h1>
+        <app-hero-main [hero]="hero"></app-hero-main>
+      \``;
+
+    const expectedContent = '<h1>Tour of Heroes 1</h1><app-hero-main [hero]="hero"></app-hero-main>';
+
+    expectEqual(input, { rawTemplate: expectedTemplate, templateContent: expectedContent });
+  });
 });
