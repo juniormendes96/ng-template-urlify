@@ -41,7 +41,7 @@ describe('extract', () => {
     inputs.forEach((input) => expectEqual(input, null));
   });
 
-  it('returns correct values', () => {
+  it('returns correct values with normal spacing', () => {
     const input = `
 
     @Component({
@@ -77,6 +77,30 @@ describe('extract', () => {
 
     const expectedContent =
       '<h1>Tour of Heroes</h1><app-hero-main [hero]="hero"></app-hero-main><p>{{ paragraph }}</p><div *ngIf="condition"><div>Content</div></div><button (click)="onClick({ someValue: 0 })">Click me</button>';
+
+    expectEqual(input, { rawTemplate: expectedTemplate, templateContent: expectedContent });
+  });
+
+  it('returns the correct values with extra spacing', () => {
+    const input = `
+    
+    @Component ({
+      selector: "app-root",
+      template : \`
+        <h1>Tour of Heroes</h1>
+      \` ,
+      styles: ["h1 { font-weight: normal; }"],
+    })
+
+    export class AppComponent {}
+
+    `;
+
+    const expectedTemplate = `template : \`
+        <h1>Tour of Heroes</h1>
+      \``;
+
+    const expectedContent = '<h1>Tour of Heroes</h1>';
 
     expectEqual(input, { rawTemplate: expectedTemplate, templateContent: expectedContent });
   });

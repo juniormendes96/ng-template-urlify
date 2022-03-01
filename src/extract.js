@@ -9,7 +9,7 @@ function extract(input) {
     return null;
   }
 
-  const [rawTemplate, templateContent] = decoratorMatch.match(/template:\s?\`(.+)\`/s) || [];
+  const [rawTemplate, templateContent] = decoratorMatch.match(/template\s?:\s?\`(.+)\`/s) || [];
 
   if (!rawTemplate) {
     return null;
