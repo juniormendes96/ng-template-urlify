@@ -1,20 +1,18 @@
-const EMPTY = {};
-
 function extract(input) {
   if (!input) {
-    return EMPTY;
+    return null;
   }
 
   const [decoratorMatch] = input.match(/\@Component.*?\}\)/s) || [];
 
   if (!decoratorMatch) {
-    return EMPTY;
+    return null;
   }
 
   const [rawTemplate, templateContent] = decoratorMatch.match(/template:\s?\`(.+)\`/s) || [];
 
   if (!rawTemplate) {
-    return EMPTY;
+    return null;
   }
 
   const singleLineContent = templateContent.replace(/\n\s+/g, '');

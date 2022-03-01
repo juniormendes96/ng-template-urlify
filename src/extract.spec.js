@@ -4,22 +4,22 @@ const extract = require('../src/extract');
 const expectEqual = (input, expected) => expect(extract(input)).to.eql(expected);
 
 describe('extract', () => {
-  it('returns empty if input is falsy', () => {
+  it('returns null if input is falsy', () => {
     const inputs = ['', null, undefined];
-    inputs.forEach((input) => expectEqual(input, {}));
+    inputs.forEach((input) => expectEqual(input, null));
   });
 
-  it('returns empty if no decorator is present', () => {
+  it('returns null if no decorator is present', () => {
     const input = `
     export class AppComponent {
       constructor() {}
     }
     `;
 
-    expectEqual(input, {});
+    expectEqual(input, null);
   });
 
-  it('returns empty if no template is found on decorator', () => {
+  it('returns null if no template is found on decorator', () => {
     const inputs = [
       `
       @Component({
@@ -38,7 +38,7 @@ describe('extract', () => {
       `,
     ];
 
-    inputs.forEach((input) => expectEqual(input, {}));
+    inputs.forEach((input) => expectEqual(input, null));
   });
 
   it('returns correct values', () => {

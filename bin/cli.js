@@ -27,13 +27,13 @@ targets
     const input = fs.readFileSync(target, 'utf-8');
     const result = extract(input);
 
-    if (result && result !== {}) {
-      const { rawTemplate, templateContent } = result;
-      const htmlFilePath = target.replace('.ts', '.html');
-      const htmlFileName = htmlFilePath.split('/').find((file) => file.endsWith('.html'));
-      const replacedTarget = input.replace(rawTemplate, `templateUrl: "${htmlFileName}"`);
+    if (!result) return;
 
-      fs.writeFileSync(target, replacedTarget, 'utf-8');
-      fs.writeFileSync(htmlFilePath, beautify(templateContent));
-    }
+    const { rawTemplate, templateContent } = result;
+    const htmlFilePath = target.replace('.ts', '.html');
+    const htmlFileName = htmlFilePath.split('/').find((file) => file.endsWith('.html'));
+    const replacedTarget = input.replace(rawTemplate, `templateUrl: "${htmlFileName}"`);
+
+    fs.writeFileSync(target, replacedTarget, 'utf-8');
+    fs.writeFileSync(htmlFilePath, beautify(templateContent));
   });
