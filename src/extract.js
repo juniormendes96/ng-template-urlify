@@ -3,13 +3,13 @@ function extract(input) {
     return null;
   }
 
-  const [decoratorMatch] = input.match(/\@Component.*?class|export class/s) || [];
+  const [componentDecorator] = input.match(/\@Component.*?class|export class/s) || [];
 
-  if (!decoratorMatch) {
+  if (!componentDecorator) {
     return null;
   }
 
-  const [rawTemplate, templateContent] = decoratorMatch.match(/template\s?:\s?\`(.+)\`/s) || [];
+  const [rawTemplate, templateContent] = componentDecorator.match(/template\s?:\s?\`(.+)\`/s) || [];
 
   if (!rawTemplate) {
     return null;
