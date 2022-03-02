@@ -20,6 +20,6 @@
     "recursive-readdir-sync": "^1.0.6"
   },
   "bin": {
-    "ng-inline-template-to-file": "bin/cli.js"
+    "ng-inline-template-to-html": "bin/cli.js"
   }
 }
