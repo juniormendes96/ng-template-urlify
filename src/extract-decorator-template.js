@@ -10,7 +10,7 @@ function extractMultiLine(decorator) {
   return { raw, content: singleLineContent };
 }
 
-function extractOneLine(decorator) {
+function extractSingleLine(decorator) {
   const [raw, content] = decorator.match(/template\s?:\s?'(.+)'/) || decorator.match(/template\s?:\s?"(.+)"/) || [];
   return raw ? { raw, content } : null;
 }
@@ -18,10 +18,10 @@ function extractOneLine(decorator) {
 function extractDecoratorTemplate(decorator) {
   if (!decorator) return null;
 
-  const isOneLine = /template\s?:\s?['|"]/.test(decorator);
+  const isSingleLineTemplate = /template\s?:\s?['|"]/.test(decorator);
 
-  if (isOneLine) {
-    return extractOneLine(decorator);
+  if (isSingleLineTemplate) {
+    return extractSingleLine(decorator);
   }
 
   return extractMultiLine(decorator);
