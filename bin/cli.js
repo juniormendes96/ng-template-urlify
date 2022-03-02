@@ -13,27 +13,39 @@ const src = path.join(path.dirname(fs.realpathSync(__filename)), '../src');
 const extractComponentDecorator = require(`${src}/extract-component-decorator`);
 const extractDecoratorTemplate = require(`${src}/extract-decorator-template`);
 
-const targets = options.targets.reduce((targets, target) => {
-  if (fs.statSync(target).isDirectory()) {
-    return [...targets, ...scan(target)];
-  }
-  return [...targets, target];
-}, []);
+const targets = options.targets
+  .reduce((targets, target) => {
+    if (fs.statSync(target).isDirectory()) {
+      return [...targets, ...scan(target)];
+    }
+    return [...targets, target];
+  }, [])
+  .filter((target) => target.endsWith('.ts'));
 
-targets
-  .filter((target) => target.endsWith('.ts'))
-  .forEach((target) => {
-    const input = fs.readFileSync(target, 'utf-8');
-    const decorator = extractComponentDecorator(input);
-    const template = extractDecoratorTemplate(decorator);
+if (!targets.length) {
+  return console.info('No ts files found');
+}
 
-    if (!template) return;
+console.info(`${targets.length} ts files found. Starting to process...`);
 
-    const { raw, content } = template;
-    const htmlFilePath = target.replace('.ts', '.html');
-    const htmlFileName = htmlFilePath.split('/').find((file) => file.endsWith('.html'));
-    const replacedTarget = input.replace(raw, `templateUrl: "${htmlFileName}"`);
+let convertedFilesQuantity = 0;
 
-    fs.writeFileSync(target, replacedTarget, 'utf-8');
-    fs.writeFileSync(htmlFilePath, beautify(content));
-  });
+targets.forEach((target) => {
+  const input = fs.readFileSync(target, 'utf-8');
+  const decorator = extractComponentDecorator(input);
+  const template = extractDecoratorTemplate(decorator);
+
+  if (!template) return;
+
+  const { raw, content } = template;
+  const htmlFilePath = target.replace('.ts', '.html');
+  const htmlFileName = htmlFilePath.split('/').find((file) => file.endsWith('.html'));
+  const replacedTarget = input.replace(raw, `templateUrl: "${htmlFileName}"`);
+
+  fs.writeFileSync(target, replacedTarget, 'utf-8');
+  fs.writeFileSync(htmlFilePath, beautify(content));
+
+  convertedFilesQuantity++;
+});
+
+console.info(`Process finished. ${convertedFilesQuantity} files have been converted`);
