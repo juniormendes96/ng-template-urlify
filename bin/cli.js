@@ -6,7 +6,10 @@ const scan = require('recursive-readdir-sync');
 const commandLineArgs = require('command-line-args');
 const beautify = require('js-beautify').html;
 
-const options = commandLineArgs([{ name: 'targets', type: String, multiple: true, defaultOption: true }]);
+const options = commandLineArgs([
+  { name: 'targets', type: String, multiple: true, defaultOption: true },
+  { name: 'indent_size', type: Number, multiple: false, defaultValue: 2 },
+]);
 
 const src = path.join(path.dirname(fs.realpathSync(__filename)), '../src');
 
@@ -43,7 +46,7 @@ targets.forEach((target) => {
   const replacedTarget = input.replace(raw, `templateUrl: "${htmlFileName}"`);
 
   fs.writeFileSync(target, replacedTarget, 'utf-8');
-  fs.writeFileSync(htmlFilePath, beautify(content));
+  fs.writeFileSync(htmlFilePath, beautify(content, { indent_size: options.indent_size }));
 
   convertedFilesQuantity++;
 });
