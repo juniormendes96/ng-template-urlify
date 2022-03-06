@@ -1,13 +1,13 @@
-function extractMultiLine(decorator) {
+function extractMultipleLines(decorator) {
   const [raw, content] = decorator.match(/template\s?:\s?\`(.+)\`/s) || [];
 
   if (!raw) {
     return null;
   }
 
-  const singleLineContent = content.replace(/\n\s+/g, '');
+  const contentWithNoLineBreaks = content.replace(/\n\s+/g, '');
 
-  return { raw, content: singleLineContent };
+  return { raw, content: contentWithNoLineBreaks };
 }
 
 function extractSingleLine(decorator) {
@@ -24,7 +24,7 @@ function extractDecoratorTemplate(decorator) {
     return extractSingleLine(decorator);
   }
 
-  return extractMultiLine(decorator);
+  return extractMultipleLines(decorator);
 }
 
 module.exports = extractDecoratorTemplate;
