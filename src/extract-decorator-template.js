@@ -5,9 +5,9 @@ function extractMultipleLines(decorator) {
     return null;
   }
 
-  const contentWithNoLineBreaks = content.replace(/\n\s+/g, '');
+  const contentWithNoLineBreaks = content.replace(/\n\s+/g, ' ');
 
-  return { raw, content: contentWithNoLineBreaks };
+  return { raw, content: contentWithNoLineBreaks.trim() };
 }
 
 function extractSingleLine(decorator) {
