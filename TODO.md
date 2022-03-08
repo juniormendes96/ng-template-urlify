@@ -1,2 +1,1 @@
 - Add README
-- Verify which quotation type to use (' or ")
