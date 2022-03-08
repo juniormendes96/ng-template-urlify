@@ -17,10 +17,7 @@ const extractFileContents = (templateUrl, fileContent) => {
 
   if (!templateProperty) return null;
 
-  const selectorProperty = decoratorProperties.find((p) => p.getName() === 'selector');
-  const quoteKind = selectorProperty?.getInitializer()?.getQuoteKind() || QuoteKind.Double;
-
-  project.manipulationSettings.set({ quoteKind });
+  project.manipulationSettings.set({ quoteKind: getQuoteKind(sourceFile) });
 
   const templateContent = templateProperty.getInitializer().getText();
 
@@ -30,6 +27,16 @@ const extractFileContents = (templateUrl, fileContent) => {
     templateHtml: removeUnnecessaryTemplateChars(templateContent),
     component: sourceFile.getFullText(),
   };
+};
+
+const getQuoteKind = (sourceFile) => {
+  const defaultKind = QuoteKind.Double;
+
+  try {
+    return sourceFile.getImportDeclarations()[0]?.getModuleSpecifier()?.getQuoteKind() || defaultKind;
+  } catch (err) {
+    return defaultKind;
+  }
 };
 
 const removeUnnecessaryTemplateChars = (template) => {

@@ -170,8 +170,9 @@ describe('extractFileContents', () => {
     expect(result.templateHtml).to.eql(expectedTemplateHtml);
   });
 
-  it('uses the same quote kind as the selector property', () => {
-    const singleQuoteInput = `
+  it('uses the same quote kind as the first import', () => {
+    const input = `
+    import { Component } from '@angular/core';
 
     @Component({
       selector: 'app-root',
@@ -184,20 +185,8 @@ describe('extractFileContents', () => {
 
     `;
 
-    const doubleQuoteInput = `
-
-    @Component({
-      selector: "app-root",
-      template: \`
-        <h1>Tour of Heroes</h1>
-      \`,
-      styles: ["h1 { font-weight: normal; }"],
-    })
-    export class AppComponent {}
-
-    `;
-
-    const expectedSingleQuoteComponent = `
+    const expectedComponent = `
+    import { Component } from '@angular/core';
 
     @Component({
       selector: 'app-root',
@@ -208,21 +197,38 @@ describe('extractFileContents', () => {
 
     `;
 
-    const expectedDoubleQuoteComponent = `
+    const result = sut('./app-component.html', input);
 
+    expect(result.component).to.eql(expectedComponent);
+  });
+
+  it('uses double quote kind if no import is found', () => {
+    const input = `
+    
     @Component({
-      selector: "app-root",
-      templateUrl: "./app-component.html",
-      styles: ["h1 { font-weight: normal; }"],
+      selector: 'app-root',
+      template: \`
+        <h1>Tour of Heroes</h1>
+      \`,
+      styles: ['h1 { font-weight: normal; }'],
     })
     export class AppComponent {}
 
     `;
 
-    const singleQuoteResult = sut('./app-component.html', singleQuoteInput);
-    const doubleQuoteResult = sut('./app-component.html', doubleQuoteInput);
+    const expectedComponent = `
+    
+    @Component({
+      selector: 'app-root',
+      templateUrl: "./app-component.html",
+      styles: ['h1 { font-weight: normal; }'],
+    })
+    export class AppComponent {}
 
-    expect(singleQuoteResult.component).to.eql(expectedSingleQuoteComponent);
-    expect(doubleQuoteResult.component).to.eql(expectedDoubleQuoteComponent);
+    `;
+
+    const result = sut('./app-component.html', input);
+
+    expect(result.component).to.eql(expectedComponent);
   });
 });
