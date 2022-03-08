@@ -9,9 +9,10 @@ describe('extractFileContents', () => {
 
   it('returns null if no Component decorator is found', () => {
     const inputs = [
+      'const foo = "bar";',
       'export class AppComponent {}',
       `
-      @AnyDecorator({
+      @Foo({
         selector: "app-root",
         styles: ["h1 { font-weight: normal; }"],
       })
