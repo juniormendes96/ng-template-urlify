@@ -36,12 +36,6 @@ export class AppComponent {}
 <p>Lorem ipsum</p>
 ```
 
-## Installation
-
-```bash
-npm install -g ng-template-urlify
-```
-
 ## Usage
 
 Firstly, make sure you are using some version control system like Git or you have a backup of your project. **This will overwrite your existing TS files.**
