@@ -33,6 +33,7 @@ export class AppComponent {}
 <!-- app.component.html -->
 
 <h1>Tour of Heroes</h1>
+<p>Lorem ipsum</p>
 ```
 
 ## Installation
