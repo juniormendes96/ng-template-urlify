@@ -37,7 +37,11 @@
     const templateUrl = `./${htmlFilePath.split('/').find((t) => t.endsWith('.html'))}`;
     const result = extract(templateUrl, fileContent);
 
-    if (!result) return;
+    if (!result) {
+      return console.info(`No inline template found on ${path}`);
+    }
+
+    console.info(`Inline template found on ${path}`);
 
     const { templateHtml, component } = result;
 
