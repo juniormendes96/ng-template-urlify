@@ -21,8 +21,6 @@
     return console.info('No ts files found.');
   }
 
-  console.info(`${tsFilePaths.length} ts files found. Starting to process...`);
-
   let convertedFilesQuantity = 0;
 
   tsFilePaths.forEach((path) => {
@@ -46,5 +44,7 @@
     convertedFilesQuantity++;
   });
 
-  console.info(`Process finished! ${convertedFilesQuantity} files have been converted.`);
+  console.info(
+    `Process finished! ${convertedFilesQuantity} out of ${tsFilePaths.length} TS files have been converted.`
+  );
 })();
