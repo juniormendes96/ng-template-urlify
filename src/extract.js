@@ -33,7 +33,7 @@ const extract = (templateUrl, fileContent) => {
 };
 
 const removeUnnecessaryTemplateChars = (template) => {
-  const lines = template.split('\n').filter((line) => !isBacktickLine(line));
+  const lines = template.split('\n');
   const isSingleLine = lines.length === 1;
 
   if (isSingleLine) {
@@ -41,10 +41,10 @@ const removeUnnecessaryTemplateChars = (template) => {
     return templateWithoutQuotes;
   }
 
-  const indentationSpaces = lines[0].match(/^\s*/)[0];
-  return lines.map((line) => line.replace(indentationSpaces, '')).join('\n');
-};
+  const linesWithoutBackticks = lines.filter((line) => line.replaceAll(' ', '') !== '`');
+  const indentationSpaces = linesWithoutBackticks[0].match(/^\s*/)[0];
 
-const isBacktickLine = (line) => line.replaceAll(' ', '') === '`';
+  return linesWithoutBackticks.map((line) => line.replace(indentationSpaces, '')).join('\n');
+};
 
 module.exports = extract;
