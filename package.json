@@ -7,9 +7,9 @@
     "test": "mocha src/**/*.spec.js",
     "test:watch": "mocha src/**/*.spec.js --watch"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["angular"],
+  "author": "Vilmar Mendes Junior",
+  "license": "Apache 2.0",
   "devDependencies": {
     "expect.js": "^0.3.1",
     "mocha": "^9.2.1"
