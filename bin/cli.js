@@ -11,7 +11,7 @@
   const extract = require(path.join(path.dirname(fs.realpathSync(__filename)), '../src/extract-file-contents'));
 
   if (!options.targets) {
-    return console.error('You have to provide a path to the files.');
+    return console.error('You have to provide a path to the TS files.');
   }
 
   const tsFilePaths = options.targets
