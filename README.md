@@ -44,6 +44,10 @@ npm install -g ng-template-urlify
 
 ## Usage
 
+Firstly, make sure you are using some version control system like Git or you have a backup of your project. **This will overwrite your existing TS files.**
+
+Once you've done that, run:
+
 ```bash
 ng-template-urlify /path/to/your/files
 ```
@@ -52,7 +56,7 @@ ng-template-urlify /path/to/your/files
 
 Say you have a _huge_ project with lots of components and have been using inline templates since the beginning. For any reason (performance on VSCode is one of them – HTML templates perform much better than inline ones), you want to change all your components to have separate HTML files instead of inline properties.
 
-This can come in handy – with one command you can transform all your components to have separate HTML files. Otherwise you would have to do it manually.
+This will come in handy – with one command you can transform all your components to have separate HTML files. Otherwise you would have to do it manually.
 
 ## License
 
