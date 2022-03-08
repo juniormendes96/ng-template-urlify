@@ -14,24 +14,19 @@
     return console.error('You have to provide a path to the files.');
   }
 
-  const tsTargets = options.targets
-    .reduce((targets, target) => {
-      if (fs.statSync(target).isDirectory()) {
-        return [...targets, ...scan(target)];
-      }
-      return [...targets, target];
-    }, [])
+  const tsFilePaths = options.targets
+    .reduce((paths, path) => (fs.statSync(path).isDirectory() ? [...paths, ...scan(path)] : [...paths, path]), [])
     .filter((target) => target.endsWith('.ts'));
 
-  if (!tsTargets.length) {
+  if (!tsFilePaths.length) {
     return console.info('No ts files found.');
   }
 
-  console.info(`${tsTargets.length} ts files found. Starting to process...`);
+  console.info(`${tsFilePaths.length} ts files found. Starting to process...`);
 
   let convertedFilesQuantity = 0;
 
-  tsTargets.forEach((path) => {
+  tsFilePaths.forEach((path) => {
     const fileContent = fs.readFileSync(path, 'utf-8');
     const fileName = path.split('/').at(-1);
     const templateUrl = `./${fileName.replace('.ts', '.html')}`;
