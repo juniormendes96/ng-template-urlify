@@ -2,7 +2,9 @@
   "name": "ng-template-urlify",
   "version": "1.0.0",
   "description": "Replace your component inline template properties with HTML files",
-  "keywords": ["angular"],
+  "keywords": [
+    "angular"
+  ],
   "author": "Vilmar Mendes Junior",
   "repository": {
     "type": "git",
@@ -18,7 +20,6 @@
     "mocha": "^9.2.1"
   },
   "dependencies": {
-    "command-line-args": "^5.2.1",
     "recursive-readdir-sync": "^1.0.6",
     "ts-morph": "^14.0.0",
     "typescript": "^4.6.2"

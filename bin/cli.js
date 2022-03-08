@@ -4,17 +4,16 @@
   const path = require('path');
   const fs = require('fs');
   const scan = require('recursive-readdir-sync');
-  const commandLineArgs = require('command-line-args');
 
-  const options = commandLineArgs([{ name: 'targets', type: String, multiple: true, defaultOption: true }]);
+  const [, , ...targets] = process.argv;
 
   const extract = require(path.join(path.dirname(fs.realpathSync(__filename)), '../src/extract-file-contents'));
 
-  if (!options.targets) {
+  if (!targets?.length) {
     return console.error('You have to provide a path to the TS files.');
   }
 
-  const tsFilePaths = options.targets
+  const tsFilePaths = targets
     .reduce((paths, path) => (fs.statSync(path).isDirectory() ? [...paths, ...scan(path)] : [...paths, path]), [])
     .filter((target) => target.endsWith('.ts'));
 
