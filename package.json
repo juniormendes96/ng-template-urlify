@@ -1,7 +1,7 @@
 {
-  "name": "ng-inline-template-to-html",
+  "name": "ng-template-urlify",
   "version": "1.0.0",
-  "description": "",
+  "description": "Replace all your component inline template properties with HTML files",
   "main": "index.js",
   "scripts": {
     "test": "mocha src/**/*.spec.js",
@@ -21,6 +21,6 @@
     "typescript": "^4.6.2"
   },
   "bin": {
-    "ng-inline-template-to-html": "bin/cli.js"
+    "ng-template-urlify": "bin/cli.js"
   }
 }

@@ -1,4 +1,4 @@
-# Angular Inline Template to HTML
+# Angular Template URLify
 
 Replace all your component inline `template` properties with `templateUrl` and generate the respective HTML files automatically.
 
@@ -38,11 +38,11 @@ export class AppComponent {}
 ## Installation
 
 ```bash
-npm install -g ng-inline-template-to-html
+npm install -g ng-template-urlify
 ```
 
 ## Usage
 
 ```bash
-ng-inline-template-to-html /path/to/your/files
+ng-template-urlify /path/to/your/files
 ```
