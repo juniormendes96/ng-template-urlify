@@ -11,7 +11,7 @@
   const extract = require(path.join(path.dirname(fs.realpathSync(__filename)), '../src/extract-file-contents'));
 
   if (!options.targets) {
-    return console.error('You have to provide the path to your files.');
+    return console.error('You have to provide a path to the files.');
   }
 
   const tsTargets = options.targets
@@ -33,17 +33,18 @@
 
   tsTargets.forEach((path) => {
     const fileContent = fs.readFileSync(path, 'utf-8');
-    const htmlFilePath = path.replace('.ts', '.html');
-    const templateUrl = `./${htmlFilePath.split('/').find((t) => t.endsWith('.html'))}`;
+    const fileName = path.split('/').at(-1);
+    const templateUrl = `./${fileName.replace('.ts', '.html')}`;
     const result = extract(templateUrl, fileContent);
 
     if (!result) {
-      return console.info(`No inline template found on ${path}`);
+      return console.info(`No inline template found on ${fileName}`);
     }
 
-    console.info(`Inline template found on ${path}`);
+    console.info(`Inline template found on ${fileName}`);
 
     const { templateHtml, component } = result;
+    const htmlFilePath = path.replace('.ts', '.html');
 
     fs.writeFileSync(path, component, 'utf-8');
     fs.writeFileSync(htmlFilePath, templateHtml, 'utf-8');
