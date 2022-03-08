@@ -170,12 +170,14 @@ describe('extract', () => {
     expect(result.templateHtml).to.eql(expectedTemplateHtml);
   });
 
-  it.only('uses the same quote kind as the selector property', () => {
+  it('uses the same quote kind as the selector property', () => {
     const singleQuoteInput = `
 
     @Component({
       selector: 'app-root',
-      template: '<h1>Tour of Heroes</h1>',
+      template: \`
+        <h1>Tour of Heroes</h1>
+      \`,
       styles: ['h1 { font-weight: normal; }'],
     })
     export class AppComponent {}
@@ -186,11 +188,41 @@ describe('extract', () => {
 
     @Component({
       selector: "app-root",
-      template: "<h1>Tour of Heroes</h1>",
+      template: \`
+        <h1>Tour of Heroes</h1>
+      \`,
       styles: ["h1 { font-weight: normal; }"],
     })
     export class AppComponent {}
 
     `;
+
+    const expectedSingleQuoteComponent = `
+
+    @Component({
+      selector: 'app-root',
+      templateUrl: './app-component.html',
+      styles: ['h1 { font-weight: normal; }'],
+    })
+    export class AppComponent {}
+
+    `;
+
+    const expectedDoubleQuoteComponent = `
+
+    @Component({
+      selector: "app-root",
+      templateUrl: "./app-component.html",
+      styles: ["h1 { font-weight: normal; }"],
+    })
+    export class AppComponent {}
+
+    `;
+
+    const singleQuoteResult = sut('./app-component.html', singleQuoteInput);
+    const doubleQuoteResult = sut('./app-component.html', doubleQuoteInput);
+
+    expect(singleQuoteResult.component).to.eql(expectedSingleQuoteComponent);
+    expect(doubleQuoteResult.component).to.eql(expectedDoubleQuoteComponent);
   });
 });

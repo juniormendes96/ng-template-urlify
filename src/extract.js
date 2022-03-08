@@ -3,18 +3,24 @@ const { Project, QuoteKind } = require('ts-morph');
 function extract(templateUrl, fileContent) {
   if (!fileContent) return null;
 
-  const project = new Project({ manipulationSettings: { quoteKind: QuoteKind.Double } });
+  const project = new Project();
   const sourceFile = project.createSourceFile('tmp/component.ts', fileContent, { overwrite: true });
   const decorator = (sourceFile.getClasses() || []).map((c) => c.getDecorator('Component')).filter((d) => !!d)[0];
 
   if (!decorator) return null;
 
-  const templateProperty = decorator
-    .getArguments()[0]
-    .getProperties()
-    .find((p) => p.getName() === 'template');
+  const properties = decorator.getArguments()[0].getProperties();
+  const templateProperty = properties.find((p) => p.getName() === 'template');
 
   if (!templateProperty) return null;
+
+  const quoteKind =
+    properties
+      .find((p) => p.getName() === 'selector')
+      ?.getInitializer()
+      ?.getQuoteKind() || QuoteKind.Double;
+
+  project.manipulationSettings.set({ quoteKind });
 
   const templateContent = templateProperty.getInitializer().getText();
 
