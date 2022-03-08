@@ -10,6 +10,10 @@
 
   const extract = require(path.join(path.dirname(fs.realpathSync(__filename)), '../src/extract-file-contents'));
 
+  if (!options.targets) {
+    return console.error('You have to provide the path to your files.');
+  }
+
   const tsTargets = options.targets
     .reduce((targets, target) => {
       if (fs.statSync(target).isDirectory()) {
@@ -20,7 +24,7 @@
     .filter((target) => target.endsWith('.ts'));
 
   if (!tsTargets.length) {
-    return console.info('No ts files found');
+    return console.info('No ts files found.');
   }
 
   console.info(`${tsTargets.length} ts files found. Starting to process...`);
@@ -43,5 +47,5 @@
     convertedFilesQuantity++;
   });
 
-  console.info(`Process finished. ${convertedFilesQuantity} files have been converted`);
+  console.info(`Process finished! ${convertedFilesQuantity} files have been converted.`);
 })();
