@@ -49,6 +49,13 @@ Firstly, make sure you are using some version control system like Git or you hav
 Once you've done that, run:
 
 ```bash
+npx ng-template-urlify /path/to/your/files
+```
+
+or
+
+```bash
+npm install -g ng-template-urlify
 ng-template-urlify /path/to/your/files
 ```
 
