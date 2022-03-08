@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-(function () {
+(() => {
   const path = require('path');
   const fs = require('fs');
   const scan = require('recursive-readdir-sync');

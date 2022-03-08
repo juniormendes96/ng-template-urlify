@@ -1,24 +1,24 @@
 const { Project, QuoteKind } = require('ts-morph');
 
-function extract(templateUrl, fileContent) {
+const extract = (templateUrl, fileContent) => {
   if (!fileContent) return null;
 
   const project = new Project();
   const sourceFile = project.createSourceFile('tmp/component.ts', fileContent, { overwrite: true });
-  const decorator = (sourceFile.getClasses() || []).map((c) => c.getDecorator('Component')).filter((d) => !!d)[0];
+  const componentDecorator = sourceFile
+    .getClasses()
+    .map((component) => component.getDecorator('Component'))
+    .filter((decorator) => !!decorator)[0];
 
-  if (!decorator) return null;
+  if (!componentDecorator) return null;
 
-  const properties = decorator.getArguments()[0].getProperties();
-  const templateProperty = properties.find((p) => p.getName() === 'template');
+  const decoratorProperties = componentDecorator.getArguments()[0]?.getProperties();
+  const templateProperty = decoratorProperties?.find((property) => property.getName() === 'template');
 
   if (!templateProperty) return null;
 
-  const quoteKind =
-    properties
-      .find((p) => p.getName() === 'selector')
-      ?.getInitializer()
-      ?.getQuoteKind() || QuoteKind.Double;
+  const selectorProperty = decoratorProperties.find((p) => p.getName() === 'selector');
+  const quoteKind = selectorProperty?.getInitializer()?.getQuoteKind() || QuoteKind.Double;
 
   project.manipulationSettings.set({ quoteKind });
 
@@ -30,10 +30,10 @@ function extract(templateUrl, fileContent) {
     templateHtml: removeUnnecessaryTemplateChars(templateContent),
     component: sourceFile.getFullText(),
   };
-}
+};
 
-function removeUnnecessaryTemplateChars(template) {
-  const lines = template.split('\n').filter((line) => !line.includes('`'));
+const removeUnnecessaryTemplateChars = (template) => {
+  const lines = template.split('\n').filter((line) => !isBacktickLine(line));
   const isSingleLine = lines.length === 1;
 
   if (isSingleLine) {
@@ -43,6 +43,8 @@ function removeUnnecessaryTemplateChars(template) {
 
   const indentationSpaces = lines[0].match(/^\s*/)[0];
   return lines.map((line) => line.replace(indentationSpaces, '')).join('\n');
-}
+};
+
+const isBacktickLine = (line) => line.replaceAll(' ', '') === '`';
 
 module.exports = extract;
