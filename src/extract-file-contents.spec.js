@@ -1,5 +1,5 @@
 const expect = require('expect.js');
-const sut = require('./extract');
+const sut = require('./extract-file-contents');
 
 describe('extract', () => {
   it('returns null if input is falsy', () => {

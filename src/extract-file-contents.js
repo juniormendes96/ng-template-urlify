@@ -1,6 +1,6 @@
 const { Project, QuoteKind } = require('ts-morph');
 
-const extract = (templateUrl, fileContent) => {
+const extractFileContents = (templateUrl, fileContent) => {
   if (!fileContent) return null;
 
   const project = new Project();
@@ -47,4 +47,4 @@ const removeUnnecessaryTemplateChars = (template) => {
   return linesWithoutBackticks.map((line) => line.replace(indentationSpaces, '')).join('\n');
 };
 
-module.exports = extract;
+module.exports = extractFileContents;

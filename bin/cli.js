@@ -8,7 +8,7 @@
 
   const options = commandLineArgs([{ name: 'targets', type: String, multiple: true, defaultOption: true }]);
 
-  const extract = require(path.join(path.dirname(fs.realpathSync(__filename)), '../src/extract'));
+  const extract = require(path.join(path.dirname(fs.realpathSync(__filename)), '../src/extract-file-contents'));
 
   const tsTargets = options.targets
     .reduce((targets, target) => {
