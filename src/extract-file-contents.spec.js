@@ -68,7 +68,7 @@ describe('extractFileContents', () => {
           <div>Content</div>
         </div>
         <button (click)="onClick({ someValue: 0 })">Click me</button>
-      \`,
+        \`,
       styles: ["h1 { font-weight: normal; }"],
     })
     export class AppComponent {}
@@ -87,7 +87,7 @@ describe('extractFileContents', () => {
     `;
 
     const expectedTemplateHtml =
-      '<h1>Tour of Heroes</h1>\n<app-hero-main\n  [hero]="hero"\n  [heroes]="heroes"\n  *ngIf="heroes.length"\n></app-hero-main>\n<p>\n  {{ paragraph }}\n</p>\n<div *ngIf="condition">\n  <div>Content</div>\n</div>\n<button (click)="onClick({ someValue: 0 })">Click me</button>';
+      '<h1>Tour of Heroes</h1>\n<app-hero-main\n  [hero]="hero"\n  [heroes]="heroes"\n  *ngIf="heroes.length"\n></app-hero-main>\n<p>\n  {{ paragraph }}\n</p>\n<div *ngIf="condition">\n  <div>Content</div>\n</div>\n<button (click)="onClick({ someValue: 0 })">Click me</button>\n';
 
     const result = sut('./app-component.html', input);
 
