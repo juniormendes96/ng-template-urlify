@@ -18,7 +18,7 @@
     .filter((target) => target.endsWith('.ts'));
 
   if (!tsFilePaths.length) {
-    return console.info('No ts files found.');
+    return console.info('No TS files found.');
   }
 
   let convertedFilesQuantity = 0;
