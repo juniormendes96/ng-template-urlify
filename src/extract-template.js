@@ -1,13 +1,13 @@
 const { Project, QuoteKind } = require('ts-morph');
 
-const extractFileContents = (templateUrl, fileContent) => {
+const extractTemplate = (templateUrl, fileContent) => {
   if (!fileContent) return null;
 
   const project = new Project();
   const sourceFile = project.createSourceFile('tmp/component.ts', fileContent, { overwrite: true });
   const componentDecorator = sourceFile
     .getClasses()
-    .map((component) => component.getDecorator('Component'))
+    .map((classDeclaration) => classDeclaration.getDecorator('Component'))
     .filter((decorator) => !!decorator)[0];
 
   if (!componentDecorator) return null;
@@ -58,4 +58,4 @@ const removeUnnecessaryTemplateChars = (template) => {
 
 const extractLines = (template) => template.split('\n').filter((line, index) => index > 0 || !!line.trim());
 
-module.exports = extractFileContents;
+module.exports = extractTemplate;

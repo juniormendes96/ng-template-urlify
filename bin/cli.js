@@ -7,7 +7,7 @@
 
   const [, , ...targets] = process.argv;
 
-  const extract = require(path.join(path.dirname(fs.realpathSync(__filename)), '../src/extract-file-contents'));
+  const extractTemplate = require(path.join(path.dirname(fs.realpathSync(__filename)), '../src/extract-template'));
 
   if (!targets?.length) {
     return console.error('You have to provide a path to the TS files.');
@@ -27,7 +27,7 @@
     const fileContent = fs.readFileSync(path, 'utf-8');
     const fileName = path.split('/').at(-1);
     const templateUrl = `./${fileName.replace('.ts', '.html')}`;
-    const result = extract(templateUrl, fileContent);
+    const result = extractTemplate(templateUrl, fileContent);
 
     if (!result || !result.templateHtml?.trim()) {
       return console.info(`No inline template found on ${fileName}`);

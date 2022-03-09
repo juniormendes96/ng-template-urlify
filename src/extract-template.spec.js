@@ -1,7 +1,7 @@
 const expect = require('expect.js');
-const sut = require('./extract-file-contents');
+const sut = require('./extract-template');
 
-describe('extractFileContents', () => {
+describe('extractTemplate', () => {
   it('returns null if input is falsy', () => {
     const inputs = ['', null, undefined];
     inputs.forEach((input) => expect(sut('./app-component.html', input)).to.be(null));
