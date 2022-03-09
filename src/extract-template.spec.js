@@ -26,23 +26,19 @@ describe('extractTemplate', () => {
   it('returns null if no template is found on decorator', () => {
     const inputs = [
       `
-
       @Component({
         selector: "app-root",
         styles: ["h1 { font-weight: normal; }"],
       })
       export class AppComponent {}
-
       `,
       `
-
       @Component({
         selector: "app-root",
         templateUrl: "./app-component.html",
         styles: ["h1 { font-weight: normal; }"],
       })
       export class AppComponent {}
-
       `,
     ];
 
@@ -51,7 +47,6 @@ describe('extractTemplate', () => {
 
   it('returns correct result when the template has multiple lines', () => {
     const input = `
-
     @Component({
       selector: "app-root",
       template: \`
@@ -72,18 +67,15 @@ describe('extractTemplate', () => {
       styles: ["h1 { font-weight: normal; }"],
     })
     export class AppComponent {}
-
     `;
 
     const expectedComponent = `
-
     @Component({
       selector: "app-root",
       templateUrl: "./app-component.html",
       styles: ["h1 { font-weight: normal; }"],
     })
     export class AppComponent {}
-
     `;
 
     const expectedTemplateHtml =
@@ -96,7 +88,20 @@ describe('extractTemplate', () => {
   });
 
   it('returns correct result when the template has single line', () => {
-    const input = `
+    const inputWithSingleQuotes = `
+    import { Component } from '@angular/core';
+
+    @Component({
+      selector: 'app-root',
+      template: '<h1>Tour of Heroes</h1>',
+      styles: ['h1 { font-weight: normal; }'],
+    })
+    export class AppComponent {}
+
+    `;
+
+    const inputWithDoubleQuotes = `
+    import { Component } from "@angular/core";
 
     @Component({
       selector: "app-root",
@@ -107,7 +112,44 @@ describe('extractTemplate', () => {
 
     `;
 
-    const expectedComponent = `
+    const inputWithBackticks = `
+    import { Component } from "@angular/core";
+
+    @Component({
+      selector: "app-root",
+      template: \`<h1>Tour of Heroes</h1>\`,
+      styles: ["h1 { font-weight: normal; }"],
+    })
+    export class AppComponent {}
+
+    `;
+
+    const expectedSingleQuoteComponent = `
+    import { Component } from '@angular/core';
+
+    @Component({
+      selector: 'app-root',
+      templateUrl: './app-component.html',
+      styles: ['h1 { font-weight: normal; }'],
+    })
+    export class AppComponent {}
+
+    `;
+
+    const expectedDoubleQuoteComponent = `
+    import { Component } from "@angular/core";
+
+    @Component({
+      selector: "app-root",
+      templateUrl: "./app-component.html",
+      styles: ["h1 { font-weight: normal; }"],
+    })
+    export class AppComponent {}
+
+    `;
+
+    const expectedBackticksComponent = `
+    import { Component } from "@angular/core";
 
     @Component({
       selector: "app-root",
@@ -120,15 +162,21 @@ describe('extractTemplate', () => {
 
     const expectedTemplateHtml = '<h1>Tour of Heroes</h1>';
 
-    const result = sut('./app-component.html', input);
+    const singleQuotesResult = sut('./app-component.html', inputWithSingleQuotes);
+    const doubleQuotesResult = sut('./app-component.html', inputWithDoubleQuotes);
+    const backticksResult = sut('./app-component.html', inputWithBackticks);
 
-    expect(result.component).to.eql(expectedComponent);
-    expect(result.templateHtml).to.eql(expectedTemplateHtml);
+    expect(singleQuotesResult.component).to.eql(expectedSingleQuoteComponent);
+    expect(doubleQuotesResult.component).to.eql(expectedDoubleQuoteComponent);
+    expect(backticksResult.component).to.eql(expectedBackticksComponent);
+
+    expect(singleQuotesResult.templateHtml).to.eql(expectedTemplateHtml);
+    expect(doubleQuotesResult.templateHtml).to.eql(expectedTemplateHtml);
+    expect(backticksResult.templateHtml).to.eql(expectedTemplateHtml);
   });
 
   it('extracts only the first component if there is more than one', () => {
     const input = `
-
     @Component({
       selector: "app-root-1",
       template: "<h1>Tour of Heroes 1</h1>",
@@ -142,11 +190,9 @@ describe('extractTemplate', () => {
       styles: ["h1 { font-weight: normal; }"],
     })
     export class AppComponent2 {}
-
     `;
 
     const expectedComponent = `
-
     @Component({
       selector: "app-root-1",
       templateUrl: "./app-component.html",
@@ -160,7 +206,6 @@ describe('extractTemplate', () => {
       styles: ["h1 { font-weight: normal; }"],
     })
     export class AppComponent2 {}
-
     `;
 
     const expectedTemplateHtml = '<h1>Tour of Heroes 1</h1>';
@@ -183,7 +228,6 @@ describe('extractTemplate', () => {
       styles: ['h1 { font-weight: normal; }'],
     })
     export class AppComponent {}
-
     `;
 
     const expectedComponent = `
@@ -195,7 +239,6 @@ describe('extractTemplate', () => {
       styles: ['h1 { font-weight: normal; }'],
     })
     export class AppComponent {}
-
     `;
 
     const result = sut('./app-component.html', input);
@@ -205,7 +248,6 @@ describe('extractTemplate', () => {
 
   it('uses double quote kind if no import is found', () => {
     const input = `
-    
     @Component({
       selector: 'app-root',
       template: \`
@@ -214,18 +256,15 @@ describe('extractTemplate', () => {
       styles: ['h1 { font-weight: normal; }'],
     })
     export class AppComponent {}
-
     `;
 
     const expectedComponent = `
-    
     @Component({
       selector: 'app-root',
       templateUrl: "./app-component.html",
       styles: ['h1 { font-weight: normal; }'],
     })
     export class AppComponent {}
-
     `;
 
     const result = sut('./app-component.html', input);
