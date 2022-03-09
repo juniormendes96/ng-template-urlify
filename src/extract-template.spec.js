@@ -87,7 +87,7 @@ describe('extractTemplate', () => {
     `;
 
     const expectedTemplateHtml =
-      '<h1>Tour of Heroes</h1>\n<app-hero-main\n  [hero]="hero"\n  [heroes]="heroes"\n  *ngIf="heroes.length"\n></app-hero-main>\n<p>\n  {{ paragraph }}\n</p>\n<div *ngIf="condition">\n  <div>Content</div>\n</div>\n<button (click)="onClick({ someValue: 0 })">Click me</button>\n';
+      '<h1>Tour of Heroes</h1>\n<app-hero-main\n  [hero]="hero"\n  [heroes]="heroes"\n  *ngIf="heroes.length"\n></app-hero-main>\n<p>\n  {{ paragraph }}\n</p>\n<div *ngIf="condition">\n  <div>Content</div>\n</div>\n<button (click)="onClick({ someValue: 0 })">Click me</button>';
 
     const result = sut('./app-component.html', input);
 

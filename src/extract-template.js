@@ -19,7 +19,7 @@ const extractTemplate = (templateUrl, fileContent) => {
 
   project.manipulationSettings.set({ quoteKind: getQuoteKind(sourceFile) });
 
-  const templateContent = templateProperty.getInitializer().getLiteralValue();
+  const templateContent = templateProperty.getInitializer().getText();
 
   templateProperty.set({ name: 'templateUrl', initializer: (writer) => writer.quote(templateUrl) });
 
@@ -40,22 +40,18 @@ const getQuoteKind = (sourceFile) => {
 };
 
 const removeUnnecessaryTemplateChars = (template) => {
-  const lines = extractLines(template);
-
-  if (!lines.length) {
-    return '';
-  }
+  const lines = template.split('\n');
 
   if (lines.length === 1) {
-    return lines[0];
+    const templateWithoutFirstAndLastQuotes = lines[0].slice(1, -1);
+    return templateWithoutFirstAndLastQuotes;
   }
 
-  const firstLineWithContent = lines.find((line) => !!line.trim());
+  const linesWithoutFirstAndLastBackticks = lines.slice(1, -1);
+  const firstLineWithContent = linesWithoutFirstAndLastBackticks.find((line) => !!line.trim());
   const indentationSpaces = firstLineWithContent.match(/^\s*/)[0];
 
-  return lines.map((line) => line.replace(indentationSpaces, '')).join('\n');
+  return linesWithoutFirstAndLastBackticks.map((line) => line.replace(indentationSpaces, '')).join('\n');
 };
-
-const extractLines = (template) => template.split('\n').filter((line, index) => index > 0 || !!line.trim());
 
 module.exports = extractTemplate;
