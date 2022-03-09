@@ -1,6 +1,6 @@
 {
   "name": "ng-template-urlify",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Replace your component inline template properties with HTML files",
   "keywords": [
     "angular"
