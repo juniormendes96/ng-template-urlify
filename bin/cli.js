@@ -29,7 +29,7 @@
     const templateUrl = `./${fileName.replace('.ts', '.html')}`;
     const result = extract(templateUrl, fileContent);
 
-    if (!result || !result.templateUrl?.trim()) {
+    if (!result || !result.templateHtml?.trim()) {
       return console.info(`No inline template found on ${fileName}`);
     }
 
